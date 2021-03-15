@@ -14,13 +14,14 @@ public class SpawnManager : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {
+    {   // Makes SpawnObstacle repeat with delay and repeat rate
         InvokeRepeating("SpawnObstacle",startDelay,repeatRate);
+        // Goes into "Player" and finds the PlayerController Script in order to control spawns based on if game is over
         playerControllerScript = GameObject.Find("Player").GetComponent<PlayerController>();  
     }
 
     void SpawnObstacle()
-    {
+    {   // If game has not ended, continue to spawn obstacles
         if(playerControllerScript.isGameOver == false)
         {
             Instantiate(obstaclePrefab, spawnPos, obstaclePrefab.transform.rotation); 
