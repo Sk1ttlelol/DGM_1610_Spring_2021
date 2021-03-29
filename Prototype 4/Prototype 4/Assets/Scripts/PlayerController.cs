@@ -9,6 +9,9 @@ public class PlayerController : MonoBehaviour
     private GameObject focalPoint;
     private Rigidbody playerRb;
 
+    public bool hasPowerup;
+    public float powerupStrength = 16;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,5 +24,38 @@ public class PlayerController : MonoBehaviour
     {
         float forwardInput = Input.GetAxis("Vertical");
         playerRb.AddForce(focalPoint.transform.forward * speed * Time.deltaTime);
+    }
+    // This block of code allows the player to pickup powerup item
+    private void OnTriggerEnter(Collider other)
+    {
+      if(other.CompareTag("Powerup"))
+      {
+          hasPowerup = true;
+          Destroy(other.gameObject);
+          Debug.Log("Powerup Collected!");
+
+          StartCoroutine(PowerupCountdownRoutine());
+      }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Enemy") && hasPowerup)
+        {
+            // Gets the enemy's rigidbody component so we can have access to its physics properties
+            Rigidbody enemyRigidBody = collision.gameObject.GetComponent<Rigidbody>();
+            // Gets the position of the enemy in relation to the player
+            Vector3 awayFromplayer = (collision.gameObject.transform.position - transform.position);
+            // Report player collision with pick up
+            Debug.Log("Player has collided with " + collision.gameObject + " with powerup set to "+ hasPowerup);
+            // On collision kicks enemy back
+            enemyRigidBody. AddForce(awayFromplayer * powerupStrength, ForceMode.Impulse);
+        }
+    }
+
+    IEnumerator PowerupCountdownRoutine()
+    {
+        yield return new WaitForSeconds(7); hasPowerup = false;
+
     }
 }
