@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     public bool hasPowerup;
     public float powerupStrength = 16;
 
+    public GameObject powerupIndicator;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +26,8 @@ public class PlayerController : MonoBehaviour
     {
         float forwardInput = Input.GetAxis("Vertical");
         playerRb.AddForce(focalPoint.transform.forward * speed * Time.deltaTime);
+
+        powerupIndicator.transform.position = transform.position + new Vector3(0, 0.5f, 0);
     }
     // This block of code allows the player to pickup powerup item
     private void OnTriggerEnter(Collider other)
@@ -35,6 +39,8 @@ public class PlayerController : MonoBehaviour
           Debug.Log("Powerup Collected!");
 
           StartCoroutine(PowerupCountdownRoutine());
+
+          powerupIndicator.gameObject.SetActive(true);
       }
     }
 
@@ -56,6 +62,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator PowerupCountdownRoutine()
     {
         yield return new WaitForSeconds(7); hasPowerup = false;
+        powerupIndicator.gameObject.SetActive(false);
 
     }
 }
