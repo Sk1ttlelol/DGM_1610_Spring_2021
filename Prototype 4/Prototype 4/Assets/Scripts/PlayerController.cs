@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
         float forwardInput = Input.GetAxis("Vertical");
         playerRb.AddForce(focalPoint.transform.forward * speed * Time.deltaTime);
 
-        powerupIndicator.transform.position = transform.position + new Vector3(0, 0.5f, 0);
+        powerupIndicator.transform.position = transform.position + new Vector3(0, -0.5f, 0);
     }
     // This block of code allows the player to pickup powerup item
     private void OnTriggerEnter(Collider other)
