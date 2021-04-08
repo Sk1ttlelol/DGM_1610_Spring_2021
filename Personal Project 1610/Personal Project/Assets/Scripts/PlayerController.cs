@@ -17,9 +17,6 @@ public class PlayerController : MonoBehaviour
     public bool isTakeDamage = false;
     public bool isOnGround = true;
 
-    private float jumpTimeCounter;
-    public float jumpTime;
-    private bool isJumping;
     private int extraJumps;
     public int extraJumpsValue;
 
@@ -46,39 +43,23 @@ public class PlayerController : MonoBehaviour
 
         transform.Translate(Vector3.left * Time.deltaTime * speed *hInput);
 
-        //if player pushes space bar, and isOnGround, player go boing boing
-      if(Input.GetKeyDown(KeyCode.Space) && isOnGround == true && extraJumps > 0)
+      if(isOnGround == true)
       {
-          isJumping = true;
-          jumpTimeCounter = jumpTime;
+          extraJumps = extraJumpsValue;
+      }
+
+        //if player pushes space bar,isOnGround, and has extra jumpsplayer go boing boing
+      if(Input.GetKeyDown(KeyCode.Space) && extraJumps > 0)
+      {
           playerRb.velocity = Vector3.up * jumpForce;
-          //playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
           isOnGround = false;
           extraJumps--;
       } 
-      else if(Input.GetKeyDown(KeyCode.Space) && isOnGround == true && extraJumps == 0)
+      else if(Input.GetKeyDown(KeyCode.Space) && extraJumps == 0 && isOnGround == true)
       {
          playerRb.velocity = Vector3.up * jumpForce;
-         isJumping = true;
-         jumpTimeCounter = jumpTime;
-      }
-
-      if(Input.GetKey(KeyCode.Space) && isJumping == true)
-      {
-        if(jumpTimeCounter > 0)
-        {
-           //playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-           playerRb.velocity = Vector3.up * jumpForce;
-           jumpTimeCounter -=Time.deltaTime; 
-        }
-        else{
-            isJumping = false;
-        } 
-      }
-
-      if(Input.GetKeyUp(KeyCode.Space))
-      {
-          isJumping = false;
+         isOnGround = false;
+         Debug.Log("Backup jump");
       }
 
       //if player goes too far to the left, stop movement
@@ -86,6 +67,11 @@ public class PlayerController : MonoBehaviour
         {
             transform.position = new Vector3(leftBound, transform.position.y, transform.position.z);
         }
+
+      if(hasWings == true && isOnGround == true)
+      {
+          extraJumpsValue = 2;
+      }
     }
 
     private void OnCollisionEnter(Collision other)
@@ -93,7 +79,6 @@ public class PlayerController : MonoBehaviour
         if(other.gameObject.CompareTag("Ground"))
         {
             isOnGround = true;
-            //extraJumps = 2;
             Debug.Log("Grounded");
         }
         
@@ -113,6 +98,16 @@ public class PlayerController : MonoBehaviour
             transform.position = playerSpawnPos;
 
         }
-
     }
+
+      private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Wings"))
+        {
+            hasWings = true;
+            Destroy(other.gameObject);
+            Debug.Log("Wings Collected");
+        }
+    }
+    
 }
