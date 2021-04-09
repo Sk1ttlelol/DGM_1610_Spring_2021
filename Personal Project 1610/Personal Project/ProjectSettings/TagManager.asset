@@ -9,6 +9,9 @@ TagManager:
   - takeDamage
   - Powerup
   - Wings
+  - PLAT_MOVE_LEFT
+  - PLAT_MOVE_RIGHT
+  - MovingEnemy
   layers:
   - Default
   - TransparentFX
