@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
           playerRb.velocity = Vector3.up * jumpForce;
           isOnGround = false;
           extraJumps--;
-      } 
+      }
       else if(Input.GetKeyDown(KeyCode.Space) && extraJumps == 0 && isOnGround == true)
       {
          playerRb.velocity = Vector3.up * jumpForce;
@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
         {
             transform.position = new Vector3(leftBound, transform.position.y, transform.position.z);
         }
-
+        //If player gets the wings, allows double jump
       if(hasWings == true && isOnGround == true)
       {
           extraJumpsValue = 2;
@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision other)
-    {   
+    {   //Checks if the player is on the ground
         if(other.gameObject.CompareTag("Ground"))
         {
             isOnGround = true;
@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour
     }
 
       private void OnTriggerEnter(Collider other)
-    {
+    {   // Gives the player wings and allows double jump after colliding with wings
         if(other.gameObject.CompareTag("Wings"))
         {
             hasWings = true;

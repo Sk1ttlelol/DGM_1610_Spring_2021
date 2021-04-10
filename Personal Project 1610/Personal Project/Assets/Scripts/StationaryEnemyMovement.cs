@@ -33,6 +33,7 @@ public class StationaryEnemyMovement : MonoBehaviour
             bottomBoundReached = true;
         }
 
+        //Checks if the enemy has hit the top or bottom limit, then reverses direction of movement
         if(transform.position.y < topBound && topBoundReached == false)
         {
             transform.Translate(Vector3.up * Time.deltaTime * speed);

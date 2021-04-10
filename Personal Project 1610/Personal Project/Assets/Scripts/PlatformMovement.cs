@@ -6,7 +6,8 @@ public class PlatformMovement : MonoBehaviour
 {
 
     public float speed;
-    private float leftBound;
+    public float leftBound = 60;
+    public float rightBound = 1;
 
 
     // Start is called before the first frame update
@@ -28,9 +29,14 @@ public class PlatformMovement : MonoBehaviour
             transform.Translate(Vector3.left * Time.deltaTime * speed);
         }
 
+        if(transform.position.x > leftBound)
+        {
+            Destroy(gameObject);
+        }
 
-
-
-        //if(transform.position.x > leftBound)
+        if(transform.position.x < rightBound)
+        {
+            Destroy(gameObject);
+        }
     }
 }
