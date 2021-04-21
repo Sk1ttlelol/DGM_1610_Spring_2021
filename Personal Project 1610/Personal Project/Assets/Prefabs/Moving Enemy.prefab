@@ -108,6 +108,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   topBound: 24
   bottomBound: 15
-  speed: 3
+  speed: 5
   topBoundReached: 0
   bottomBoundReached: 1
