@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
         hInput = Input.GetAxis("Horizontal");
         vInput = Input.GetAxis("Vertical");
 
-        transform.Translate(Vector3.left * Time.deltaTime * speed *hInput);
+        transform.Translate(Vector3.forward * Time.deltaTime * speed *hInput);
 
       if(isOnGround == true)
       {
