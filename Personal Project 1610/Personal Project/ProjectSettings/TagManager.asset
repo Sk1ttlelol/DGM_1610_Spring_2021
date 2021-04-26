@@ -12,6 +12,7 @@ TagManager:
   - PLAT_MOVE_LEFT
   - PLAT_MOVE_RIGHT
   - MovingEnemy
+  - DeathBox
   layers:
   - Default
   - TransparentFX

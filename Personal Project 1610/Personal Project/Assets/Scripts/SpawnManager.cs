@@ -13,21 +13,27 @@ public class SpawnManager : MonoBehaviour
     private float spawnDelay = 1f;
     private float repeatRate = 3f;
 
+    private GameManager gameManagerScript;
+
     // Start is called before the first frame update
     void Start()
     {
-       InvokeRepeating("SpawnMovingPlatform",spawnDelay,repeatRate); 
+       gameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
+       InvokeRepeating("SpawnMovingPlatform",spawnDelay,repeatRate);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+         
     }
 
     private void SpawnMovingPlatform()
     {
-        Instantiate(movingRightPlatformPrefab, movingRightSpawnLocation, movingRightPlatformPrefab.transform.rotation);
-        Instantiate(movingLeftPlatformPrefab, movingLeftSpawnLocation, movingLeftPlatformPrefab.transform.rotation); 
+        if(gameManagerScript.isGameOn)
+        {
+            Instantiate(movingRightPlatformPrefab, movingRightSpawnLocation, movingRightPlatformPrefab.transform.rotation);
+            Instantiate(movingLeftPlatformPrefab, movingLeftSpawnLocation, movingLeftPlatformPrefab.transform.rotation); 
+        }
     }
 }

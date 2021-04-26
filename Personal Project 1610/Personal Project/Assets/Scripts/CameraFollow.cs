@@ -8,19 +8,26 @@ public class CameraFollow : MonoBehaviour
     public float smoothSpeed = 10f; 
     public Vector3 offset;
 
-    public Vector3 cameraSpawnPos = new Vector3(10,17,16);
+    private Vector3 cameraSpawnPos = new Vector3(-26,17,16);
+
+    private GameManager gameManagerScript;
 
     // Start is called before the first frame update
     void Start()
     {
+        gameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
         transform.position = cameraSpawnPos;
     }
 
     void LateUpdate()
     {
-        Vector3 desiredPosition = target.position + offset;
-        Vector3 smoothedPosition = Vector3.Lerp (transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
-        transform.position = smoothedPosition;
+        if(gameManagerScript.isGameOn)
+        {
+            Vector3 desiredPosition = target.position + offset;
+            Vector3 smoothedPosition = Vector3.Lerp (transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
+            transform.position = smoothedPosition;
+        }
+        
 
     }
 }

@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/lab3 progression_01.unity
+    guid: f0ce9655a0736c84fb017729f35101cd
   m_configObjects: {}

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2370088552214043414}
   - component: {fileID: 754253283857118697}
   - component: {fileID: -1667594217732651792}
+  - component: {fileID: -4216426102420931253}
   m_Layer: 0
   m_Name: Moving_Platform_RIGHT
   m_TagString: PLAT_MOVE_RIGHT
@@ -109,3 +110,19 @@ MonoBehaviour:
   speed: 8
   leftBound: 60
   rightBound: 1
+--- !u!54 &-4216426102420931253
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6444992346043333501}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 124
+  m_CollisionDetection: 0
