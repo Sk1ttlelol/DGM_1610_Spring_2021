@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -21,11 +22,16 @@ public class PlayerController : MonoBehaviour
     public int extraJumpsValue;
 
     private bool hasWings = false;
+
+    public float healthValue = 10;
+    public TextMeshProUGUI healthText;
+    private GameManager gameManagerScript;
     
 
     // Start is called before the first frame update
     void Start()
     {   //Grabs the Rigidbody component from the player
+        gameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
         playerRb = GetComponent<Rigidbody>();
         extraJumps = extraJumpsValue;
 
@@ -35,7 +41,6 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   
-       //playerRb.velocity = new Vector3(vInput * speed, playerRb.velocity.y, playerRb.velocity.z);
         
         //Grabs the axis for control
         hInput = Input.GetAxis("Horizontal");
@@ -72,6 +77,12 @@ public class PlayerController : MonoBehaviour
       {
           extraJumpsValue = 2;
       }
+
+      if(gameManagerScript.isGameOn)
+      {
+          healthText.gameObject.SetActive(true);
+          ShowHealth();
+      }
     }
 
     private void OnCollisionEnter(Collision other)
@@ -91,6 +102,7 @@ public class PlayerController : MonoBehaviour
         if(other.gameObject.CompareTag("takeDamage"))
         {
             isTakeDamage = true; 
+            healthValue--;
         }
         //if isTakeDamage becomes true, move player to respawn position
         if(isTakeDamage == true)
@@ -108,6 +120,16 @@ public class PlayerController : MonoBehaviour
             Destroy(other.gameObject);
             Debug.Log("Wings Collected");
         }
+    }
+
+
+    private void ShowHealth()
+    {
+        if(healthValue < 1)
+        {
+            gameManagerScript.GameOver();
+        }
+        healthText.text = "Health :" + healthValue;
     }
     
 }

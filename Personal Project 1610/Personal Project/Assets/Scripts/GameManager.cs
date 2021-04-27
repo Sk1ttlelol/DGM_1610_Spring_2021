@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         newGameButton.onClick.AddListener(StartGame);
+        titleScreenButton.onClick.AddListener(ResetGame);
     }
 
     
@@ -43,5 +44,10 @@ public class GameManager : MonoBehaviour
         startScreen.gameObject.SetActive(false);
         isGameOn = true;
         Debug.Log("newGameButton was clicked");
+    }
+
+    public void ResetGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
