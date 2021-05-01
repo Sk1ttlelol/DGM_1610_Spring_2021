@@ -13,6 +13,9 @@ TagManager:
   - PLAT_MOVE_RIGHT
   - MovingEnemy
   - DeathBox
+  - Potion
+  - Checkpoint
+  - FinishLine
   layers:
   - Default
   - TransparentFX

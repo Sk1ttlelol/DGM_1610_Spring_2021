@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
         hInput = Input.GetAxis("Horizontal");
         transform.Translate(Vector3.right * hInput * Time.deltaTime * speed);
 
-        if(transform.position.x < -xRange)
+        if(transform.position.x < -xRange) //Restrains the player on both edges of the screen
         {
             transform.position = new Vector3(-xRange, transform.position.y, transform.position.z);
         }
@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            //Launch the projectile
+            //Launch the projectile prefab when space is pushed down
             Instantiate(projectilePrefab, transform.position, projectilePrefab.transform.rotation); 
         }
     }

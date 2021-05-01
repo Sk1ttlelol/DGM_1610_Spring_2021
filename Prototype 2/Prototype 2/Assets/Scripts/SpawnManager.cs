@@ -18,8 +18,8 @@ public class SpawnManager : MonoBehaviour
 
     void SpawnRandomAnimals(){
         // Randomly Generate animal spawn position and animal type
-            Vector3 spawnPos = new Vector3(Random.Range(-SpawnRangeX, SpawnRangeX),0,SpawnPosZ);
-            int animalIndex = Random.Range(0,animalPrefabs.Length);
-            Instantiate(animalPrefabs[animalIndex], spawnPos, animalPrefabs[animalIndex].transform.rotation);
+        Vector3 spawnPos = new Vector3(Random.Range(-SpawnRangeX, SpawnRangeX),0,SpawnPosZ);
+        int animalIndex = Random.Range(0,animalPrefabs.Length);
+        Instantiate(animalPrefabs[animalIndex], spawnPos, animalPrefabs[animalIndex].transform.rotation);
     }
 }

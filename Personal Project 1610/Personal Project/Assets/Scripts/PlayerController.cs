@@ -12,7 +12,8 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody playerRb;
     public float gravityMod;
-    public float leftBound = 33;
+    private float leftBound = 33;
+    private float rightBound = -120;
     public Vector3 playerSpawnPos = new Vector3(32,14,-5);
 
     public bool isTakeDamage = false;
@@ -26,6 +27,8 @@ public class PlayerController : MonoBehaviour
     public float healthValue = 10;
     public TextMeshProUGUI healthText;
     private GameManager gameManagerScript;
+
+    public Vector3 checkpointSpawnPos;
     
 
     // Start is called before the first frame update
@@ -40,27 +43,29 @@ public class PlayerController : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {   
-        
+    {
         //Grabs the axis for control
         hInput = Input.GetAxis("Horizontal");
         vInput = Input.GetAxis("Vertical");
-
+ 
+      if(gameManagerScript.isGameOn)
+      {
         transform.Translate(Vector3.forward * Time.deltaTime * speed *hInput);
+      }
 
-      if(isOnGround == true)
+      if(isOnGround == true) //Resets the extraJumpsValue when the jump ends and player lands on ground
       {
           extraJumps = extraJumpsValue;
       }
 
-        //if player pushes space bar,isOnGround, and has extra jumpsplayer go boing boing
+        //if player pushes space bar,isOnGround, and has extra jumps, allows the player to jump more than once
       if(Input.GetKeyDown(KeyCode.Space) && extraJumps > 0)
       {
           playerRb.velocity = Vector3.up * jumpForce;
           isOnGround = false;
           extraJumps--;
       }
-      else if(Input.GetKeyDown(KeyCode.Space) && extraJumps == 0 && isOnGround == true)
+      else if(Input.GetKeyDown(KeyCode.Space) && extraJumps == 0 && isOnGround == true) //if function above isn't active, then it means player can only jump once here
       {
          playerRb.velocity = Vector3.up * jumpForce;
          isOnGround = false;
@@ -72,13 +77,20 @@ public class PlayerController : MonoBehaviour
         {
             transform.position = new Vector3(leftBound, transform.position.y, transform.position.z);
         }
+
+        //if player goes too far to the right, stop movement
+      if(transform.position.x < rightBound)
+        {
+            transform.position = new Vector3(rightBound, transform.position.y, transform.position.z);
+        }
+
         //If player gets the wings, allows double jump
       if(hasWings == true && isOnGround == true)
       {
           extraJumpsValue = 2;
       }
 
-      if(gameManagerScript.isGameOn)
+      if(gameManagerScript.isGameOn) //Function that displays players health
       {
           healthText.gameObject.SetActive(true);
           ShowHealth();
@@ -108,7 +120,18 @@ public class PlayerController : MonoBehaviour
         if(isTakeDamage == true)
         {
             transform.position = playerSpawnPos;
-
+        }
+        //if player walks over checkpoint platform, sets the respawn position to the checkpoint position
+        if(other.gameObject.CompareTag("Checkpoint"))
+        {
+            playerSpawnPos = checkpointSpawnPos;
+            Debug.Log("Checkpoint Reached");
+            isTakeDamage = false;
+        }
+        //if player walks over the finish line, player wins the game
+        if(other.gameObject.CompareTag("FinishLine"))
+        {
+            gameManagerScript.WinGame();
         }
     }
 
@@ -120,10 +143,16 @@ public class PlayerController : MonoBehaviour
             Destroy(other.gameObject);
             Debug.Log("Wings Collected");
         }
+        // Allows the player the ability to pick up health potions for extra health
+        if(other.gameObject.CompareTag("Potion"))
+        {
+            healthValue++;
+            Destroy(other.gameObject);
+            Debug.Log("Health Potion Collected");
+        }
     }
 
-
-    private void ShowHealth()
+    private void ShowHealth() // Function that ends the game if the players health hits 0
     {
         if(healthValue < 1)
         {
@@ -131,5 +160,4 @@ public class PlayerController : MonoBehaviour
         }
         healthText.text = "Health :" + healthValue;
     }
-    
 }

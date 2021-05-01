@@ -10,6 +10,6 @@ public class CameraFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = player.transform.position + offset; 
+        transform.position = player.transform.position + offset; //Follows the truck from a distance created from offset
     }
 }

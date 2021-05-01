@@ -19,16 +19,10 @@ public class SpawnManager : MonoBehaviour
     void Start()
     {
        gameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
-       InvokeRepeating("SpawnMovingPlatform",spawnDelay,repeatRate);
+       InvokeRepeating("SpawnMovingPlatform",spawnDelay,repeatRate); //Activates the SpawnMovingPlatform function on a repeat and delay
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-         
-    }
-
-    private void SpawnMovingPlatform()
+    private void SpawnMovingPlatform() //Function that spawns the moving platforms at certain locations
     {
         if(gameManagerScript.isGameOn)
         {

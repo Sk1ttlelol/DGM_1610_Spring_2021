@@ -11,23 +11,17 @@ public class StationaryEnemyMovement : MonoBehaviour
     public bool topBoundReached = true;
     public bool bottomBoundReached;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
-        if(transform.position.y > topBound)
+        if(transform.position.y > topBound) // These two functions check if the enemy has hit a certain Y threshold and creates the effect of the enemy moving up and down on repeat
         {
             topBoundReached = true;
             bottomBoundReached = false;
             Debug.Log("top bound hit");
         }
 
-        if(transform.position.y < bottomBound)
+        if(transform.position.y < bottomBound)// Like a toggle switch
         {
             topBoundReached = false;
             bottomBoundReached = true;
