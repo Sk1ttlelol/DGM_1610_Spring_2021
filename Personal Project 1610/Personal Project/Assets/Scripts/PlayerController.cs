@@ -23,12 +23,19 @@ public class PlayerController : MonoBehaviour
     public int extraJumpsValue;
 
     private bool hasWings = false;
+    public GameObject wingsIndicator;
 
     public float healthValue = 10;
     public TextMeshProUGUI healthText;
     private GameManager gameManagerScript;
 
     public Vector3 checkpointSpawnPos;
+
+    public AudioClip jumpSound;
+    private AudioSource playerAudio;
+
+    public ParticleSystem healthParticles;
+    public ParticleSystem wingsParticles;
     
 
     // Start is called before the first frame update
@@ -37,6 +44,8 @@ public class PlayerController : MonoBehaviour
         gameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
         playerRb = GetComponent<Rigidbody>();
         extraJumps = extraJumpsValue;
+
+        playerAudio = GetComponent<AudioSource>();
 
         Physics.gravity *= gravityMod;
     }
@@ -64,10 +73,12 @@ public class PlayerController : MonoBehaviour
           playerRb.velocity = Vector3.up * jumpForce;
           isOnGround = false;
           extraJumps--;
+          playerAudio.PlayOneShot(jumpSound, 1.0f);
       }
       else if(Input.GetKeyDown(KeyCode.Space) && extraJumps == 0 && isOnGround == true) //if function above isn't active, then it means player can only jump once here
       {
          playerRb.velocity = Vector3.up * jumpForce;
+         playerAudio.PlayOneShot(jumpSound, 1.0f);
          isOnGround = false;
          Debug.Log("Backup jump");
       }
@@ -139,6 +150,8 @@ public class PlayerController : MonoBehaviour
     {   // Gives the player wings and allows double jump after colliding with wings
         if(other.gameObject.CompareTag("Wings"))
         {
+            wingsParticles.Play();
+            wingsIndicator.gameObject.SetActive(true);
             hasWings = true;
             Destroy(other.gameObject);
             Debug.Log("Wings Collected");
@@ -146,6 +159,7 @@ public class PlayerController : MonoBehaviour
         // Allows the player the ability to pick up health potions for extra health
         if(other.gameObject.CompareTag("Potion"))
         {
+            healthParticles.Play();
             healthValue++;
             Destroy(other.gameObject);
             Debug.Log("Health Potion Collected");
